@@ -37,10 +37,6 @@ body {
     user-select: none;
 }
 
-#clearButton {
-    
-}
-
 #squareGridContainer {
     display: flex;
     justify-content: center;
@@ -54,4 +50,5 @@ body {
     repeat(16, 1fr);
     grid-template-rows:
     repeat(16, 1fr);
+    box-shadow: 0px 10px 13px -7px #000000, 0px 11px 50px 7px rgba(0,0,0,0.12);
 }

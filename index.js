@@ -109,8 +109,8 @@ function colorSquare(square) {
         if (square.classList.contains("black")) {
             if (square.style.backgroundColor === "") {
                 square.style.opacity = "0";
+                square.style.backgroundColor = "black";
                 setTimeout(function() {
-                    square.style.backgroundColor = "black";
                     square.style.transition = "opacity 1s"
                     square.style.opacity = "1";
                 }, 50);
