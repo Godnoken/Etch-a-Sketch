@@ -141,7 +141,8 @@ function draw(event) {
 
     if (isDrawing) {
         if (color === "eraser") {
-            event.target.style.opacity = "0";
+            event.target.style.opacity = "";
+            event.target.style.transition = "";
             event.target.style.backgroundColor = "";
         } else if (color === "grayscale") {
             if (event.target.style.opacity === "1" && event.target.style.backgroundColor !== "black") {
