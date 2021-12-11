@@ -18,12 +18,6 @@ const showGridButton = document.createElement("div");
 
 let customColor = document.createElement("input");
 customColor.type = "color";
-customColor.addEventListener("change", function() {
-    document.querySelector("#squareGrid").childNodes.forEach(btn => {
-        btn.className = "";
-        btn.classList.add("black");
-    })
-})
 
 const horizontalLabel = document.createElement("label");
 horizontalLabel.htmlFor = "horizontal";
@@ -114,96 +108,69 @@ function createGrid(horizontalSize, verticalSize) {
     squareGrid.style.gridTemplateColumns = `repeat(${horizontalSize}, 1fr)`;
     squareGrid.style.gridTemplateRows = `repeat(${verticalSize}, 1fr)`;
 
-    // Creates squares, adds event listener to them and appends them to the grid
+    // Creates squares, adds class "square" and appends them to the grid
     for (let i = 0; i < horizontalSize * verticalSize; i++) {
 
         const square = document.createElement("div");
 
-        square.addEventListener("mouseover", function () {
-            if (isDrawing === true) {
-            colorSquare(square)
-            }
-        })
-
-        square.addEventListener("mousedown", function() {
-            colorSquare(square)
-        })
+        square.classList.add("square");
 
         squareGrid.appendChild(square);
     }
 }
 
-// Colors the squares
-function colorSquare(square) {
-
-
-
-        // Random Color
-        if (square.classList.contains("random")) {
-            if (square.style.backgroundColor === "") {
-                square.style.opacity = "0";
-                setTimeout(function () {
-                    square.style.backgroundColor = `rgb(${randomColorValue()}, ${randomColorValue()}, ${randomColorValue()})`;
-                    square.style.transition = "opacity 1s"
-                    square.style.opacity = "1";
-                }, 50);
-            }
-        }
-
-        // Custom Color
-        if (square.classList.contains("black")) {
-            if (square.style.backgroundColor === "") {
-                square.style.opacity = "0";
-                square.style.backgroundColor = customColor.value;
-                setTimeout(function () {
-                    square.style.transition = "opacity 1s"
-                    square.style.opacity = "1";
-                }, 50);
-            }
-        }
-
-        // Grayscale
-        if (square.classList.contains("grayscale")) {
-            if (square.style.opacity < 1) {
-                square.style.backgroundColor = `rgb(0, 0, 0, ${Number(square.style.backgroundColor.slice(-4, -1)) + 0.1})`;
-            }
-
-        }
-
-        // Eraser
-        if (square.classList.contains("eraser")) {
-            square.style.opacity = "";
-            square.style.backgroundColor = "";
-        }
-    
-}
-
 // Creates random values for RGB
 function randomColorValue() {
-    return Math.floor(Math.random() * 255);
+    return `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`
+
 }
 
-// Adds event listeners for the color buttons to enable change of color
-randomColorButton.addEventListener("click", function () {
-    document.querySelector("#squareGrid").childNodes.forEach(btn => {
-        btn.className = "";
-        btn.classList.add("random");
-    });
-});
+let color;
 
-grayscaleButton.addEventListener("click", function () {
-    document.querySelector("#squareGrid").childNodes.forEach(btn => {
-        btn.className = "";
-        btn.classList.add("grayscale");
-    })
-});
+function chosenColor() {
+    if (color === "random") {
+        return randomColorValue();
+    } else if (color === "custom") {
+        return customColor.value;
+    } else {
+        return "#000000";
+    }
+}
 
-eraserButton.addEventListener("click", function () {
-    document.querySelector("#squareGrid").childNodes.forEach(btn => {
-        btn.className = "";
-        btn.classList.add("eraser");
-    })
-});
+function draw(event) {
+
+    if (isDrawing) {
+        if (color === "eraser") {
+            event.target.style.opacity = "0";
+            event.target.style.backgroundColor = "";
+        } else if (color === "grayscale") {
+            if (event.target.style.opacity === "1" && event.target.style.backgroundColor !== "black") {
+                event.target.style.opacity = "0";
+            }
+            event.target.style.opacity = Number(event.target.style.opacity.slice(0, 3)) + 0.1;
+            event.target.style.backgroundColor = "black";
+        } else {
+            event.target.style.opacity = "0";
+            setTimeout(function () {
+                event.target.style.backgroundColor = chosenColor();
+                event.target.style.transition = "opacity 1s"
+                event.target.style.opacity = 1;
+            }, 5);
+        }
+    }
+}
+
+squareGrid.addEventListener("mouseover", function (event) {
+    draw(event);
+})
+
+eraserButton.addEventListener("click", function () { color = "eraser" })
+
+randomColorButton.addEventListener("click", function () { color = "random" })
+
+grayscaleButton.addEventListener("click", function () { color = "grayscale" })
+
+customColor.addEventListener("click", function () { color = "custom" })
 
 function showGrid() {
     if (isGridShowing === true) {
@@ -219,7 +186,7 @@ showGridButton.addEventListener("click", function () {
 })
 
 // Runs clearGrid function if users input values satisfy the requirements
-submitButton.addEventListener("click", function() {
+submitButton.addEventListener("click", function () {
     if (horizontalSize.checkValidity() === true && verticalSize.checkValidity() === true) {
         clearGrid(horizontalSize.value, verticalSize.value);
     } else {
@@ -242,8 +209,8 @@ function clearGrid(horizontal, vertical) {
     // Clears user input for grid size
     horizontalSize.value = "";
     verticalSize.value = "";
-    
+
     createGrid(horizontal, vertical);
-    
+
     showGrid();
 }
