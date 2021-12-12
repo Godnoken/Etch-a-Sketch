@@ -84,14 +84,6 @@ buttonContainer.appendChild(randomColorButton);
 buttonContainer.appendChild(grayscaleButton);
 buttonContainer.appendChild(showGridButton);
 
-window.addEventListener("mousedown", () => {
-    isDrawing = true;
-});
-
-window.addEventListener("mouseup", () => {
-    isDrawing = false;
-});
-
 // Initializes standard 16x16 grid
 createGrid(16, 16);
 
@@ -119,14 +111,18 @@ function createGrid(horizontalSize, verticalSize) {
     }
 }
 
+
+
+// Tracks users choice of color/tool
+let color;
+
 // Creates random values for RGB
 function randomColorValue() {
     return `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`
 
 }
 
-let color;
-
+// Users choice of color
 function chosenColor() {
     if (color === "random") {
         return randomColorValue();
@@ -137,9 +133,8 @@ function chosenColor() {
     }
 }
 
+// Drawing tools
 function draw(event) {
-
-    if (isDrawing) {
         if (color === "eraser") {
             event.target.style.opacity = "";
             event.target.style.transition = "";
@@ -150,7 +145,10 @@ function draw(event) {
             }
             event.target.style.opacity = Number(event.target.style.opacity.slice(0, 3)) + 0.1;
             event.target.style.backgroundColor = "black";
-        } else {
+        } 
+        
+        // Normal brush
+        else {
             event.target.style.opacity = "0";
             setTimeout(function () {
                 event.target.style.backgroundColor = chosenColor();
@@ -158,20 +156,39 @@ function draw(event) {
                 event.target.style.opacity = 1;
             }, 5);
         }
-    }
 }
 
+// Listens for user holding down the mousebutton
+// Enables drawing tools
+window.addEventListener("mousedown", () => {
+    isDrawing = true;
+});
+
+// Listens for letting go of the mousebutton
+// Disables drawing tools
+window.addEventListener("mouseup", () => {
+    isDrawing = false;
+});
+
+// Listens for user holding down the mouse button and moving over the squares
+// If true - user can use drawing tools on squares
 squareGrid.addEventListener("mouseover", function (event) {
+    if (isDrawing) {
+    draw(event);
+    }
+})
+
+// Listens for user holding doewn the mouse button
+// This event listener is in practice enabling user to click a square to draw
+squareGrid.addEventListener("mousedown", function(event) {
     draw(event);
 })
 
-eraserButton.addEventListener("click", function () { color = "eraser" })
-
-randomColorButton.addEventListener("click", function () { color = "random" })
-
-grayscaleButton.addEventListener("click", function () { color = "grayscale" })
-
-customColor.addEventListener("click", function () { color = "custom" })
+// Click on drawing tool buttons to chooose tool
+eraserButton.addEventListener("click", function () { color = "eraser" });
+randomColorButton.addEventListener("click", function () { color = "random" });
+grayscaleButton.addEventListener("click", function () { color = "grayscale" });
+customColor.addEventListener("click", function () { color = "custom" });
 
 function showGrid() {
     if (isGridShowing === true) {
