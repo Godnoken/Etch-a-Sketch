@@ -44,6 +44,7 @@ confirmButton.id = "confirm";
 squareGridContainer.id = "squareGridContainer";
 squareGrid.id = "squareGrid";
 buttonContainer.id = "buttonContainer";
+customColor.id = "customColor";
 
 // Classes
 confirmButton.classList.add("button");
@@ -79,10 +80,10 @@ squareGridContainer.appendChild(squareGrid);
 container.appendChild(buttonContainer);
 buttonContainer.appendChild(clearButton);
 buttonContainer.appendChild(eraserButton);
+buttonContainer.appendChild(showGridButton);
 buttonContainer.appendChild(customColor);
 buttonContainer.appendChild(randomColorButton);
 buttonContainer.appendChild(grayscaleButton);
-buttonContainer.appendChild(showGridButton);
 
 
 
