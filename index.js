@@ -1,12 +1,9 @@
-let currentHorizontalSize = 16;
-let currentVerticalSize = 16;
-let isDrawing = false;
-let isGridShowing = false;
+/** Setting up all the HTML through the DOM */
 
+// Create elements
 const container = document.createElement("main");
 const headerContainer = document.createElement("div");
 const headerText = document.createElement("h1");
-const gridForm = document.createElement("form");
 const squareGridContainer = document.createElement("div");
 const squareGrid = document.createElement("div");
 const buttonContainer = document.createElement("div");
@@ -15,65 +12,68 @@ const randomColorButton = document.createElement("div");
 const grayscaleButton = document.createElement("div");
 const eraserButton = document.createElement("div");
 const showGridButton = document.createElement("div");
-
+const gridForm = document.createElement("form");
+const horizontalLabel = document.createElement("label");
+let horizontalInput = document.createElement("input");
+const verticalLabel = document.createElement("label");
+let verticalInput = document.createElement("input");
+const confirmButton = document.createElement("div");
 let customColor = document.createElement("input");
+
+// Attributes
+horizontalLabel.htmlFor = "horizontal";
+horizontalInput.type = "number";
+horizontalInput.max = "40";
+horizontalInput.min = "0";
+horizontalInput.required = true;
+verticalLabel.htmlFor = "vertical";
+verticalInput.type = "number";
+verticalInput.max = "40";
+verticalInput.min = "0";
+verticalInput.required = true;
+confirmButton.type = "submit";
 customColor.type = "color";
 
-const horizontalLabel = document.createElement("label");
-horizontalLabel.htmlFor = "horizontal";
-let horizontalSize = document.createElement("input");
-horizontalSize.type = "number";
-horizontalSize.max = "40";
-horizontalSize.min = "0";
-horizontalSize.required = true;
-
-const verticalLabel = document.createElement("label");
-verticalLabel.htmlFor = "vertical";
-let verticalSize = document.createElement("input");
-verticalSize.type = "number";
-verticalSize.max = "40";
-verticalSize.min = "0";
-verticalSize.required = true;
-
-const submitButton = document.createElement("div");
-submitButton.type = "submit";
-
+// IDs
 container.id = "container";
 headerContainer.id = "headerContainer";
 headerText.id = "headerText";
-horizontalSize.id = "horizontal";
-verticalSize.id = "vertical";
-submitButton.id = "confirm";
+horizontalInput.id = "horizontal";
+verticalInput.id = "vertical";
+confirmButton.id = "confirm";
 squareGridContainer.id = "squareGridContainer";
 squareGrid.id = "squareGrid";
 buttonContainer.id = "buttonContainer";
 
-submitButton.classList.add("button");
+// Classes
+confirmButton.classList.add("button");
 clearButton.classList.add("button");
 randomColorButton.classList.add("button");
 grayscaleButton.classList.add("button");
 eraserButton.classList.add("button");
 showGridButton.classList.add("button");
 
+// Text
 headerText.textContent = "Etch-a-Sketch";
-submitButton.textContent = "Confirm";
-horizontalLabel.textContent = currentHorizontalSize;
-verticalLabel.textContent = currentVerticalSize;
+confirmButton.textContent = "Confirm";
+horizontalLabel.textContent = verticalInput;
+verticalLabel.textContent = verticalInput;
 clearButton.textContent = "Clear";
 randomColorButton.textContent = "Random Colors";
 grayscaleButton.textContent = "Grayscale";
 eraserButton.textContent = "Eraser";
 showGridButton.textContent = "Show Grid";
 
+// Appending to the HTML
 document.body.appendChild(container);
 container.appendChild(headerContainer);
 headerContainer.appendChild(headerText);
 headerContainer.appendChild(gridForm);
 gridForm.appendChild(horizontalLabel);
 gridForm.appendChild(verticalLabel);
-gridForm.appendChild(horizontalSize);
-gridForm.appendChild(verticalSize);
-gridForm.appendChild(submitButton);
+gridForm.appendChild(horizontalInput);
+gridForm.appendChild(verticalInput);
+gridForm.appendChild(confirmButton);
 container.appendChild(squareGridContainer);
 squareGridContainer.appendChild(squareGrid);
 container.appendChild(buttonContainer);
@@ -84,17 +84,20 @@ buttonContainer.appendChild(randomColorButton);
 buttonContainer.appendChild(grayscaleButton);
 buttonContainer.appendChild(showGridButton);
 
+
+
+
+/** Create Grid */
+
 // Initializes standard 16x16 grid
 createGrid(16, 16);
 
 // Creates grid
 function createGrid(horizontalSize, verticalSize) {
 
-    currentHorizontalSize = horizontalSize;
-    currentVerticalSize = verticalSize;
-
-    horizontalLabel.textContent = currentHorizontalSize;
-    verticalLabel.textContent = currentVerticalSize;
+    // Shows current grid size
+    horizontalLabel.textContent = horizontalSize;
+    verticalLabel.textContent = verticalSize;
 
     // Sets new grid size
     squareGrid.style.gridTemplateColumns = `repeat(${horizontalSize}, 1fr)`;
@@ -113,8 +116,84 @@ function createGrid(horizontalSize, verticalSize) {
 
 
 
+
+/** User Input Grid Creation */
+
+// When user clicks on "Confirm" button, deletes old grid
+// and creates a new one with users inputted Input
+// if input is valid, otherwise gives user an error
+confirmButton.addEventListener("click", function () {
+    if (horizontalInput.checkValidity() === true && verticalInput.checkValidity() === true) {
+        while (squareGrid.firstChild) {
+            squareGrid.removeChild(squareGrid.firstChild);
+        }
+        createGrid(horizontalInput.value, verticalInput.value);
+
+        // Resets input after new grid is created
+        horizontalInput.value = "";
+        verticalInput.value = "";
+
+        // Makes sure grid borders show after new gridi is created
+        showGrid();
+    } else {
+        horizontalInput.reportValidity();
+        verticalInput.reportValidity();
+    }
+})
+
+
+
+
+/** Resets/Clears Current Grid */
+
+// When user clicks "Clear" button, resets current grid
+clearButton.addEventListener("click", function () {
+    clearGrid();
+});
+
+// Resets current grid
+function clearGrid() {
+
+    document.querySelector("#squareGrid").childNodes.forEach(square => {
+        square.style.backgroundColor = "";
+        square.style.opacity = "";
+        square.style.transition = "";
+    });
+
+    showGrid();
+}
+
+
+
+
+/** Show Grid */
+
+let isGridShowing = false;
+
+// Turns on or off grid borders
+function showGrid() {
+    if (isGridShowing === true) {
+        document.querySelector("#squareGrid").childNodes.forEach(square => square.style.border = "1px solid gray");
+    } else {
+        document.querySelector("#squareGrid").childNodes.forEach(square => square.style.border = "");
+    }
+}
+
+// When clicking "Show Grid" button, run showGrid function
+showGridButton.addEventListener("click", function () {
+    isGridShowing = !isGridShowing;
+    showGrid();
+})
+
+
+
+
+/** Drawing Tools */
+
 // Tracks users choice of color/tool
 let color;
+
+let isDrawing = false;
 
 // Creates random values for RGB
 function randomColorValue() {
@@ -189,46 +268,3 @@ eraserButton.addEventListener("click", function () { color = "eraser" });
 randomColorButton.addEventListener("click", function () { color = "random" });
 grayscaleButton.addEventListener("click", function () { color = "grayscale" });
 customColor.addEventListener("click", function () { color = "custom" });
-
-function showGrid() {
-    if (isGridShowing === true) {
-        document.querySelector("#squareGrid").childNodes.forEach(square => square.style.border = "1px solid gray");
-    } else {
-        document.querySelector("#squareGrid").childNodes.forEach(square => square.style.border = "");
-    }
-}
-
-showGridButton.addEventListener("click", function () {
-    isGridShowing = !isGridShowing;
-    showGrid();
-})
-
-// Runs clearGrid function if users input values satisfy the requirements
-submitButton.addEventListener("click", function () {
-    if (horizontalSize.checkValidity() === true && verticalSize.checkValidity() === true) {
-        clearGrid(horizontalSize.value, verticalSize.value);
-    } else {
-        horizontalSize.reportValidity();
-        verticalSize.reportValidity();
-    }
-})
-
-clearButton.addEventListener("click", function () {
-    clearGrid(currentHorizontalSize, currentVerticalSize);
-});
-
-function clearGrid(horizontal, vertical) {
-
-    // Clears grid
-    while (squareGrid.firstChild) {
-        squareGrid.removeChild(squareGrid.firstChild);
-    }
-
-    // Clears user input for grid size
-    horizontalSize.value = "";
-    verticalSize.value = "";
-
-    createGrid(horizontal, vertical);
-
-    showGrid();
-}
