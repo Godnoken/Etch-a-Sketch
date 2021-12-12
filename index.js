@@ -252,15 +252,19 @@ window.addEventListener("mouseup", () => {
 // Listens for user holding down the mouse button and moving over the squares
 // If true - user can use drawing tools on squares
 squareGrid.addEventListener("mouseover", function (event) {
-    if (isDrawing) {
-    draw(event);
+    if (event.target.classList.contains("square")) {
+        if (isDrawing) {
+        draw(event);
+        }
     }
 })
 
 // Listens for user holding doewn the mouse button
 // This event listener is in practice enabling user to click a square to draw
 squareGrid.addEventListener("mousedown", function(event) {
-    draw(event);
+    if (event.target.classList.contains("square")) {
+        draw(event);
+    }
 })
 
 // Click on drawing tool buttons to chooose tool
