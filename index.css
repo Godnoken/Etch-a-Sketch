@@ -1,6 +1,6 @@
 @font-face {
     font-family: Prototype;
-    src: url(/prototype/Prototype.ttf)
+    src: url(prototype/Prototype.ttf)
 }
 
 body {
@@ -108,11 +108,11 @@ img {
 }
 
 #randomColorButton {
-    background: url(/randomColor.png);
+    background: url(randomColor.png);
 }
 
 #grayscaleButton {
-    background: url(/grayscale.png);
+    background: url(grayscale.png);
 }
 
 input[type="color"] {
