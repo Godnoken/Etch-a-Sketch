@@ -2,23 +2,27 @@
 
 // Create elements
 const container = document.createElement("main");
-const headerContainer = document.createElement("div");
+const headerContainer = document.createElement("header");
 const headerText = document.createElement("h1");
 const squareGridContainer = document.createElement("div");
 const squareGrid = document.createElement("div");
+const footerContainer = document.createElement("footer");
 const buttonContainer = document.createElement("div");
 const clearButton = document.createElement("div");
-const randomColorButton = document.createElement("div");
-const grayscaleButton = document.createElement("div");
 const eraserButton = document.createElement("div");
 const showGridButton = document.createElement("div");
+const colorContainer = document.createElement("div");
+const randomColorButton = document.createElement("img");
+const grayscaleButton = document.createElement("img");
+let customColorButton = document.createElement("input");
 const gridForm = document.createElement("form");
 const horizontalLabel = document.createElement("label");
 let horizontalInput = document.createElement("input");
 const verticalLabel = document.createElement("label");
 let verticalInput = document.createElement("input");
 const confirmButton = document.createElement("div");
-let customColor = document.createElement("input");
+const codeWriter = document.createElement("p");
+const githubIcon = document.createElement("img");
 
 // Attributes
 horizontalLabel.htmlFor = "horizontal";
@@ -32,24 +36,26 @@ verticalInput.max = "40";
 verticalInput.min = "0";
 verticalInput.required = true;
 confirmButton.type = "submit";
-customColor.type = "color";
+customColorButton.type = "color";
 
 // IDs
 container.id = "container";
 headerContainer.id = "headerContainer";
 headerText.id = "headerText";
-horizontalInput.id = "horizontal";
-verticalInput.id = "vertical";
-confirmButton.id = "confirm";
+confirmButton.id = "confirmButton";
 squareGridContainer.id = "squareGridContainer";
 squareGrid.id = "squareGrid";
+footerContainer.id = "footerContainer";
 buttonContainer.id = "buttonContainer";
+colorContainer.id = "colorContainer";
+randomColorButton.id = "randomColorButton";
+grayscaleButton.id = "grayscaleButton";
+codeWriter.id = "codeWriter";
+githubIcon.id = "githubIcon";
 
 // Classes
 confirmButton.classList.add("button");
 clearButton.classList.add("button");
-randomColorButton.classList.add("button");
-grayscaleButton.classList.add("button");
 eraserButton.classList.add("button");
 showGridButton.classList.add("button");
 
@@ -59,13 +65,14 @@ confirmButton.textContent = "Confirm";
 horizontalLabel.textContent = verticalInput;
 verticalLabel.textContent = verticalInput;
 clearButton.textContent = "Clear";
-randomColorButton.textContent = "Random Colors";
-grayscaleButton.textContent = "Grayscale";
+randomColorButton.textContent = "Random";
 eraserButton.textContent = "Eraser";
 showGridButton.textContent = "Show Grid";
+codeWriter.innerHTML = "Code written by: <a href='https://github.com/Godnoken' target='_blank'>Godnoken <img src='github.svg' id='githubIcon'><a/>"
 
 // Appending to the HTML
 document.body.appendChild(container);
+container.appendChild(codeWriter);
 container.appendChild(headerContainer);
 headerContainer.appendChild(headerText);
 headerContainer.appendChild(gridForm);
@@ -76,12 +83,14 @@ gridForm.appendChild(verticalInput);
 gridForm.appendChild(confirmButton);
 container.appendChild(squareGridContainer);
 squareGridContainer.appendChild(squareGrid);
-container.appendChild(buttonContainer);
+container.appendChild(footerContainer);
+footerContainer.appendChild(colorContainer);
+colorContainer.appendChild(randomColorButton);
+colorContainer.appendChild(customColorButton);
+colorContainer.appendChild(grayscaleButton);
+footerContainer.appendChild(buttonContainer);
 buttonContainer.appendChild(clearButton);
 buttonContainer.appendChild(eraserButton);
-buttonContainer.appendChild(customColor);
-buttonContainer.appendChild(randomColorButton);
-buttonContainer.appendChild(grayscaleButton);
 buttonContainer.appendChild(showGridButton);
 
 
@@ -206,7 +215,7 @@ function chosenColor() {
     if (color === "random") {
         return randomColorValue();
     } else if (color === "custom") {
-        return customColor.value;
+        return customColorButton.value;
     } else {
         return "#000000";
     }
@@ -271,4 +280,4 @@ squareGrid.addEventListener("mousedown", function(event) {
 eraserButton.addEventListener("click", function () { color = "eraser" });
 randomColorButton.addEventListener("click", function () { color = "random" });
 grayscaleButton.addEventListener("click", function () { color = "grayscale" });
-customColor.addEventListener("click", function () { color = "custom" });
+customColorButton.addEventListener("click", function () { color = "custom" });
