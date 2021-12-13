@@ -188,6 +188,7 @@ a {
     }
 
     #codeWriter {
+        position: fixed;
         font-size: 8px;
     }
 }
