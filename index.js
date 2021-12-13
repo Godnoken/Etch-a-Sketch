@@ -222,29 +222,42 @@ function chosenColor() {
 }
 
 // Drawing tools
-function draw(event) {
+function draw(targetSquare) {
         if (color === "eraser") {
-            event.target.style.opacity = "";
-            event.target.style.transition = "";
-            event.target.style.backgroundColor = "";
+            targetSquare.style.opacity = "";
+            targetSquare.style.transition = "";
+            targetSquare.style.backgroundColor = "";
         } else if (color === "grayscale") {
-            if (event.target.style.opacity === "1" && event.target.style.backgroundColor !== "black") {
-                event.target.style.opacity = "0";
+            if (targetSquare.style.opacity === "1" && targetSquare.style.backgroundColor !== "black") {
+                targetSquare.style.opacity = "0";
             }
-            event.target.style.opacity = Number(event.target.style.opacity.slice(0, 3)) + 0.1;
-            event.target.style.backgroundColor = "black";
+            targetSquare.style.opacity = Number(targetSquare.style.opacity.slice(0, 3)) + 0.1;
+            targetSquare.style.backgroundColor = "black";
         } 
         
         // Normal brush
         else {
-            event.target.style.opacity = "0";
+            targetSquare.style.opacity = "0";
             setTimeout(function () {
-                event.target.style.backgroundColor = chosenColor();
-                event.target.style.transition = "opacity 1s"
-                event.target.style.opacity = 1;
+                targetSquare.style.backgroundColor = chosenColor();
+                targetSquare.style.transition = "opacity 1s"
+                targetSquare.style.opacity = 1;
             }, 5);
         }
 }
+
+function handleMove(event) {
+    event.preventDefault();
+    let target = event.touches[0];
+    let touched = document.elementFromPoint(target.clientX, target.clientY)
+
+    if (touched.classList.contains("square")) {
+        draw(touched);
+    }
+}
+
+squareGrid.addEventListener("touchmove", handleMove, false)
+
 
 // Listens for user holding down the mousebutton
 // Enables drawing tools
@@ -263,7 +276,7 @@ window.addEventListener("mouseup", () => {
 squareGrid.addEventListener("mouseover", function (event) {
     if (event.target.classList.contains("square")) {
         if (isDrawing) {
-        draw(event);
+        draw(event.target);
         }
     }
 })
@@ -272,9 +285,10 @@ squareGrid.addEventListener("mouseover", function (event) {
 // This event listener is in practice enabling user to click a square to draw
 squareGrid.addEventListener("mousedown", function(event) {
     if (event.target.classList.contains("square")) {
-        draw(event);
+        draw(event.target);
     }
 })
+
 
 // Click on drawing tool buttons to chooose tool
 eraserButton.addEventListener("click", function () { color = "eraser" });
