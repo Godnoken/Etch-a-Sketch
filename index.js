@@ -277,3 +277,11 @@ eraserButton.addEventListener("click", function () { color = "eraser" });
 randomColorButton.addEventListener("click", function () { color = "random" });
 grayscaleButton.addEventListener("click", function () { color = "grayscale" });
 customColorButton.addEventListener("click", function () { color = "custom" });
+
+
+
+
+/** Uses "randomColorValue" function to set an animated background */
+document.body.style.background = `linear-gradient(-45deg, ${randomColorValue()}, ${randomColorValue()}, ${randomColorValue()}, ${randomColorValue()}`
+document.body.style.animation = "backgroundGradient 250s ease infinite";
+document.body.style.backgroundSize = "1500%";
