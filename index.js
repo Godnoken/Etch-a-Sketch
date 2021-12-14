@@ -246,19 +246,6 @@ function draw(targetSquare) {
         }
 }
 
-function handleMove(event) {
-    event.preventDefault();
-    let target = event.touches[0];
-    let touched = document.elementFromPoint(target.clientX, target.clientY)
-
-    if (touched.classList.contains("square")) {
-        draw(touched);
-    }
-}
-
-squareGrid.addEventListener("touchmove", handleMove, false)
-
-
 // Listens for user holding down the mousebutton
 // Enables drawing tools
 window.addEventListener("mousedown", () => {
@@ -289,6 +276,22 @@ squareGrid.addEventListener("mousedown", function(event) {
     }
 })
 
+// Listens for user touching screen on mobile
+// If true - user can use drawing tools on squares
+squareGrid.addEventListener("touchmove", function (event) {
+
+    // Prevents mouse and touch executing at the same time
+    event.preventDefault();
+
+    // Finds target by calculating which elements coordinates are located
+    // where user touches
+    let target = event.touches[0];
+    let touched = document.elementFromPoint(target.clientX, target.clientY)
+
+    if (touched.classList.contains("square")) {
+            draw(touched);
+    }
+})
 
 // Click on drawing tool buttons to chooose tool
 eraserButton.addEventListener("click", function () { color = "eraser" });
