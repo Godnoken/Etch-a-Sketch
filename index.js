@@ -163,7 +163,7 @@ clearButton.addEventListener("click", function () {
 // Resets current grid
 function clearGrid() {
 
-    document.querySelector("#squareGrid").childNodes.forEach(square => {
+    squareGrid.childNodes.forEach(square => {
         square.style.backgroundColor = "";
         square.style.opacity = "";
         square.style.transition = "";
@@ -182,9 +182,11 @@ let isGridShowing = false;
 // Turns on or off grid borders
 function showGrid() {
     if (isGridShowing === true) {
-        document.querySelector("#squareGrid").childNodes.forEach(square => square.style.border = "1px solid gray");
+        showGridButton.textContent = "Hide Grid";
+        squareGrid.childNodes.forEach(square => square.style.border = "1px solid gray");
     } else {
-        document.querySelector("#squareGrid").childNodes.forEach(square => square.style.border = "");
+        showGridButton.textContent = "Show Grid";
+        squareGrid.childNodes.forEach(square => square.style.border = "");
     }
 }
 
@@ -303,6 +305,7 @@ customColorButton.addEventListener("click", function () { color = "custom" });
 
 
 /** Uses "randomColorValue" function to set an animated background */
+
 document.body.style.background = `linear-gradient(-45deg, ${randomColorValue()}, ${randomColorValue()}, ${randomColorValue()}, ${randomColorValue()}`
 document.body.style.animation = "backgroundGradient 250s ease infinite";
 document.body.style.backgroundSize = "1500%";
