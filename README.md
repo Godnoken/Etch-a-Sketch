@@ -1,26 +1,27 @@
-#Etch-a-Sketch
+# Etch-a-Sketch
 
-[Etch-a-Sketch overview](etchasketch.mp4)
+![Etch-a-Sketch overview](etchasketch.png)
 
 
 **Note**
 I will have abused the DOM by writing more or less nothing in pure HTML. The reason behind this is to practice DOM manipulation and won't be seen in future projects.
 
 
-What will I make;
+## What will I make;
 
 "Etch-a-Sketch" project according to TheOdinProjects rules found here: https://www.theodinproject.com/paths/foundations/courses/foundations/lessons/etch-a-sketch-project
 
-What I will learn;
+## What I will learn;
 
 More DOM manipulation, JavaScript and CSS.
 
 
+
+## How will I do it;
+
 **Note**
 The pseudocode underneath was for the MVP of the Odin project.
 Regrettably no pseudocode was written for the extra features.
-
-How will I do it;
 
 Initialize a 16x16 square grid as a div called "squareGrid" using CSS Grid and append it to the body
     Add id "squareGrid"
