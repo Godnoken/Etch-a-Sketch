@@ -3,7 +3,7 @@
 ![Etch-a-Sketch overview](etchasketch.png)
 
 
-**Note**
+**Note**:
 I will have abused the DOM by writing more or less nothing in pure HTML. The reason behind this is to practice DOM manipulation and won't be seen in future projects.
 
 
@@ -19,7 +19,7 @@ More DOM manipulation, JavaScript and CSS.
 
 ## How will I do it;
 
-**Note**
+**Note**:
 The pseudocode underneath was for the MVP of the Odin project.
 Regrettably no pseudocode was written for the extra features.
 
