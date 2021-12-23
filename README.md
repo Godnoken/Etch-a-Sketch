@@ -1,3 +1,8 @@
+#Etch-a-Sketch
+
+[Etch-a-Sketch overview](etchasketch.mp4)
+
+
 **Note**
 I will have abused the DOM by writing more or less nothing in pure HTML. The reason behind this is to practice DOM manipulation and won't be seen in future projects.
 
