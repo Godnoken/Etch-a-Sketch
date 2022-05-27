@@ -1,5 +1,5 @@
 # Etch-a-Sketch
-**Live** https://godnoken.github.io/Etch-a-Sketch/
+**Live** https://godnoken.github.io/etchasketch
 
 ![Etch-a-Sketch overview](etchasketch.png)
 
